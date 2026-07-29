@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SI-MAOS v5.0 | Single-Instance Multi-Agent Orchestration System</title>
+    <title>SI-MAOS v5.1 | Single-Instance Multi-Agent Orchestration System</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -75,14 +75,14 @@
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                 </div>
                 <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-300 tracking-wider text-lg uppercase">
-                    SI-MAOS v5.0
+                    SI-MAOS v5.1
                 </span>
             </div>
             <nav class="hidden md:flex items-center gap-6 text-sm text-slate-300">
                 <a href="#architecture" class="hover:text-violet-400 transition-colors">Architecture Overview</a>
                 <a href="#matrix" class="hover:text-violet-400 transition-colors">Enterprise Matrix</a>
                 <a href="#deliberation" class="hover:text-violet-400 transition-colors">Live Simulation</a>
-                <a href="#calculator" class="hover:text-violet-400 transition-colors">Efficiency Benchmarks</a>
+                <a href="#calculator" class="hover:text-violet-400 transition-colors">Logged Benchmark</a>
             </nav>
             <div>
                 <a href="#deliberation" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold tracking-wide uppercase text-white bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg hover:from-violet-500 hover:to-indigo-500 transition-all shadow-md shadow-violet-900/30">
@@ -111,7 +111,10 @@
             </h1>
             
             <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-                Why build slow, expensive graph networks with chatty APIs? <span class="text-violet-300 font-semibold">SI-MAOS v5.0</span> processes cooperative, cross-functional deliberation inside a <span class="underline decoration-violet-500 decoration-2 underline-offset-4 text-white font-medium">single-instance attention window</span>—eliminating token decay, state loss, and network overhead.
+                Instead of routing a task across separate, independently-called agent instances, <span class="text-violet-300 font-semibold">SI-MAOS v5.1</span> structures 10 functional roles' deliberation inside one <span class="underline decoration-violet-500 decoration-2 underline-offset-4 text-white font-medium">shared context window</span>—cutting the network round trips and repeated history re-transmission that naive multi-agent frameworks incur by default.
+            </p>
+            <p class="mt-3 text-sm text-slate-500 max-w-2xl mx-auto">
+                v5.1 corrects two issues found in v5.0 on internal review: an unsourced internal benchmark, and a claim that lenses execute "concurrently" while also being "sequential." Both are fixed below — see the <a href="#calculator" class="underline text-violet-400 hover:text-violet-300">Logged Benchmark</a> section for the real methodology.
             </p>
 
             <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
@@ -128,22 +131,23 @@
             <!-- Quick Stat Badges -->
             <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-violet-950">
                 <div class="bg-violet-950/20 rounded-xl p-4 border border-violet-900/20">
-                    <div class="text-3xl font-extrabold text-violet-400">0ms</div>
-                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Network Latency Between Roles</div>
+                    <div class="text-3xl font-extrabold text-violet-400">0</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Separate API Round Trips Between Roles</div>
                 </div>
                 <div class="bg-violet-950/20 rounded-xl p-4 border border-violet-900/20">
-                    <div class="text-3xl font-extrabold text-violet-400">100%</div>
-                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Context Preservation</div>
+                    <div class="text-3xl font-extrabold text-violet-400">1</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Shared Context Window, Not Re-Sent Per Role</div>
                 </div>
                 <div class="bg-violet-950/20 rounded-xl p-4 border border-violet-900/20">
                     <div class="text-3xl font-extrabold text-violet-400">10-in-1</div>
-                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Single Attention Frame</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Functional Roles, Single Attention Frame</div>
                 </div>
                 <div class="bg-violet-950/20 rounded-xl p-4 border border-violet-900/20">
-                    <div class="text-3xl font-extrabold text-violet-400">92%</div>
-                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Token-Cost Efficiency Gain</div>
+                    <div class="text-3xl font-extrabold text-violet-400">60.3%</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Token Reduction — Measured, Not Assumed<sup>†</sup></div>
                 </div>
             </div>
+            <p class="mt-3 text-[11px] text-slate-600 max-w-2xl mx-auto">† Real logged test on a representative task, methodology and raw data disclosed in the Logged Benchmark section below — not a live production sample.</p>
         </div>
     </section>
 
@@ -152,7 +156,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-3xl font-bold text-white tracking-tight">System Engineering Shift: Graphs vs. Single-Instance</h2>
-                <p class="mt-4 text-slate-400">Traditional multi-agent frameworks introduce immense architectural overhead. SI-MAOS v5.0 solves this natively by framing specialized roles as coexisting state-anchors inside a single LLM execution pass.</p>
+                <p class="mt-4 text-slate-400">Traditional multi-agent frameworks carry real, published overhead. SI-MAOS v5.1 reduces the specific overhead caused by routing between separate agent calls, by structuring roles as sequential deliberation inside a single LLM execution pass. It is not a universal replacement for multi-agent frameworks on tasks that genuinely parallelize — see the note below the calculator.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -171,25 +175,25 @@
                         <ul class="space-y-4 text-sm text-slate-400">
                             <li class="flex items-start gap-2">
                                 <span class="text-red-500 mt-0.5">✕</span>
-                                <div><strong>Expensive Network Hops:</strong> 10 distinct agents require sequential API invocations, causing severe cumulative latency (30s+ total).</div>
+                                <div><strong>Network Hops:</strong> separate agent calls have been measured at 3x–10x latency vs. single-agent baselines (1-2-3 Check study, arXiv 2508.07667).</div>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-red-500 mt-0.5">✕</span>
-                                <div><strong>Context Degradation:</strong> Passing history back and forth truncates structural system constraints. Roles "forget" boundaries.</div>
+                                <div><strong>Naive Context Handling:</strong> the default multi-agent memory pattern appends each new response to the next call's input, producing monotonic prompt growth (Augment Code, 2026).</div>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-red-500 mt-0.5">✕</span>
-                                <div><strong>High Token Waste:</strong> Redundant headers, repetitive system prompts, and full chat history must be sent with every single node activation.</div>
+                                <div><strong>Token Overhead:</strong> multi-agent systems have been measured consuming 4x–220x more tokens than single-agent approaches, architecture-dependent (UIUC study, cited in Augment Code, 2026).</div>
                             </li>
                         </ul>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-800/60 text-xs text-red-400 flex items-center justify-between">
-                        <span>Standard API Overhead: 10x multiplier</span>
-                        <span>Estimated Latency: High (30s+)</span>
+                        <span>Published overhead range: 4x–220x tokens</span>
+                        <span>Published latency range: 3x–10x</span>
                     </div>
                 </div>
 
-                <!-- SI-MAOS v5.0 Box -->
+                <!-- SI-MAOS v5.1 Box -->
                 <div class="bg-gradient-to-br from-violet-950/20 to-indigo-950/10 rounded-2xl p-8 border border-violet-500/30 flex flex-col justify-between glowing-border">
                     <div>
                         <div class="flex items-center gap-3 mb-6">
@@ -197,28 +201,28 @@
                                 <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                             </span>
                             <div>
-                                <h3 class="text-lg font-bold text-white">SI-MAOS v5.0 Unified Window</h3>
-                                <p class="text-xs text-emerald-400">Zero-latency, high-density paradigm</p>
+                                <h3 class="text-lg font-bold text-white">SI-MAOS v5.1 Unified Window</h3>
+                                <p class="text-xs text-emerald-400">No inter-role network hops, by construction</p>
                             </div>
                         </div>
                         <ul class="space-y-4 text-sm text-slate-300">
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-400 mt-0.5">✓</span>
-                                <div><strong>Zero-Network Latency:</strong> All 10 roles coexist in the same prompt execution context. The prompt is structured so they act as synchronized cognitive channels.</div>
+                                <div><strong>No Inter-Role Network Hops:</strong> all 10 roles deliberate sequentially inside one continuous model output — one shared context, no separate API call per role.</div>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-400 mt-0.5">✓</span>
-                                <div><strong>No System Token Decay:</strong> The attention model balances all roles concurrently. Guardrails (like Echo's vetoes) operate immediately with zero-loss precision.</div>
+                                <div><strong>Persona-Boundary Discipline (best-effort):</strong> role tags and a pre-output governance gate (Echo/Nova) check the deliberation before compilation. This is instruction-following, not a hard technical guarantee — see Known Limitations.</div>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-emerald-400 mt-0.5">✓</span>
-                                <div><strong>Behavioral Gating:</strong> Embedded prompts isolate role identities cleanly without needing physically segregated computational boundaries.</div>
+                                <div><strong>Single-Point Mutation:</strong> only Cee writes the final artifact — the other 9 roles analyze but cannot issue uncoordinated file writes.</div>
                             </li>
                         </ul>
                     </div>
                     <div class="mt-8 pt-6 border-t border-violet-900/40 text-xs text-emerald-400 flex items-center justify-between">
-                        <span>Token Compression Factor: Highly Efficient</span>
-                        <span>Estimated Latency: Ultra-Low (&lt; 3.0s)</span>
+                        <span>Measured: 60.3% token reduction<sup>†</sup></span>
+                        <span>9 model calls → 1</span>
                     </div>
                 </div>
             </div>
@@ -229,7 +233,7 @@
     <section id="matrix" class="py-20 border-t border-violet-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl font-bold text-white">The SI-MAOS v5.0 Virtual Enterprise Matrix</h2>
+                <h2 class="text-3xl font-bold text-white">The SI-MAOS v5.1 Virtual Enterprise Matrix</h2>
                 <p class="mt-4 text-slate-400">
                     Ten explicit, cross-functional roles organized into five high-impact, cooperative pairs. Hover or tap to inspect the functional handshake of each layer.
                 </p>
@@ -405,7 +409,10 @@
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-3xl font-bold text-white">Attention-Window Deliberation Simulation</h2>
                 <p class="mt-4 text-slate-400">
-                    Watch the 10 roles execute a cooperative strategic sprint inside a <strong>single execution context</strong>. See how constraints, verification, and engineering play out simultaneously.
+                    Watch a scripted walkthrough of how the 10 roles deliberate inside a <strong>single execution context</strong> on an example objective.
+                </p>
+                <p class="mt-2 text-xs text-amber-400/80 max-w-2xl mx-auto">
+                    ⚠ This is a pre-scripted illustration of the pattern, not a live model call — the text below is fixed demo content, not generated in real time. The real, logged benchmark is in the section below.
                 </p>
             </div>
 
@@ -479,62 +486,79 @@
                 
                 <!-- Info text (Left) -->
                 <div class="lg:col-span-5">
-                    <h2 class="text-3xl font-extrabold text-white tracking-tight">Showcase Your Cost-Discipline to Employers</h2>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight">Logged Benchmark — Real Test, Not a Claim</h2>
                     <p class="mt-4 text-slate-400">
-                        Standard graph patterns like LangGraph invoke separate LLM completions continuously to mimic agents discussing details. This multiplies API overhead exponentially.
+                        A representative business task was run through both a single SI-MAOS pass and a naive multi-agent equivalent (same substantive content held constant — 9 real lens outputs, only the transport mechanism varied). Result:
                     </p>
-                    <p class="mt-3 text-slate-400">
-                        SI-MAOS v5.0 leverages a highly tuned <strong>context schema</strong> that forces the model to deliberate in a single sequence of thoughts, reducing costs by up to <span class="text-emerald-400 font-bold">92%</span>.
-                    </p>
-                    <div class="mt-6 p-4 rounded-xl bg-violet-950/20 border border-violet-800/30">
-                        <div class="text-sm font-semibold text-violet-300 mb-1">💡 Architecture Insight</div>
-                        <p class="text-xs text-slate-400">Generic multi-agent systems burn through compute credits in idle API routing. Consolidating role state maps inside a single-context attention window preserves system state natively and minimizes billing waste.</p>
+                    <div class="mt-4 grid grid-cols-2 gap-3">
+                        <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-800/30 text-center">
+                            <div class="text-2xl font-extrabold text-emerald-400">60.3%</div>
+                            <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-1">Total Token Reduction</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-800/30 text-center">
+                            <div class="text-2xl font-extrabold text-emerald-400">73.1%</div>
+                            <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-1">Input Token Reduction</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-4 rounded-xl bg-amber-950/10 border border-amber-800/20">
+                        <div class="text-sm font-semibold text-amber-300 mb-1">Disclosed limitations</div>
+                        <p class="text-xs text-slate-400">Single trial (n=1), not a production sample. Token counts use a disclosed ~4-char/token approximation (no live tokenizer was reachable in the test environment) — directionally accurate, not exact billed tokens. Full raw per-call log is in the companion PM Portfolio &amp; Case Study document.</p>
+                    </div>
+                    <div class="mt-4 p-4 rounded-xl bg-violet-950/20 border border-violet-800/30">
+                        <div class="text-sm font-semibold text-violet-300 mb-1">Sanity check</div>
+                        <p class="text-xs text-slate-400">This lands close to an independently published figure — a shared-context-window study measured a 53.7% average token reduction on the same structural mechanism (Augment Code, 2026). Not the same test, but a reasonable cross-check.</p>
                     </div>
                 </div>
 
-                <!-- Live Dynamic Calculator (Right) -->
+                <!-- Interactive Model (Right) -->
                 <div class="lg:col-span-7 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 glowing-border">
-                    <h3 class="text-lg font-bold text-slate-100 mb-6">Interactive Token & Cost Simulator</h3>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">Interactive Model — Assumptions Disclosed</h3>
+                    <p class="text-xs text-slate-500 mb-6">This is a parameterized model for exploring sensitivity across task sizes, not a second live benchmark. Its default constants are the real measured averages from the logged test above (not arbitrary numbers) — shown below the result so nothing is hidden in code.</p>
                     
                     <!-- Sliders -->
                     <div class="space-y-6">
                         <div>
                             <div class="flex justify-between text-xs text-slate-400 mb-2">
-                                <span>Functional Iterations Required:</span>
-                                <span class="text-violet-400 font-bold font-mono" id="iterations-val">5 Loops</span>
+                                <span>Firing Roles / Model Calls:</span>
+                                <span class="text-violet-400 font-bold font-mono" id="iterations-val">9 calls</span>
                             </div>
-                            <input id="slider-iterations" type="range" min="2" max="15" value="5" class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-violet-500">
+                            <input id="slider-iterations" type="range" min="2" max="15" value="9" class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-violet-500">
                         </div>
 
                         <div>
                             <div class="flex justify-between text-xs text-slate-400 mb-2">
-                                <span>Input Prompt Context Size:</span>
-                                <span class="text-violet-400 font-bold font-mono" id="context-val">10k Tokens</span>
+                                <span>Task/Context Size:</span>
+                                <span class="text-violet-400 font-bold font-mono" id="context-val">0.12k Tokens</span>
                             </div>
-                            <input id="slider-context" type="range" min="2" max="50" value="10" class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-violet-500">
+                            <input id="slider-context" type="range" min="0.1" max="50" step="0.1" value="0.12" class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-violet-500">
                         </div>
                     </div>
 
                     <!-- Cost Comparison Visuals -->
                     <div class="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-slate-800">
-                        <!-- Graph Network Cost -->
+                        <!-- Graph Network Tokens -->
                         <div class="bg-red-950/10 border border-red-950/40 p-4 rounded-xl">
-                            <span class="text-[10px] text-red-400 uppercase tracking-wider font-bold">Standard Graph API</span>
-                            <div class="text-2xl font-bold text-red-500 font-mono mt-1" id="graph-cost">$0.85</div>
-                            <span class="text-[10px] text-slate-500" id="graph-api-calls">5 API Roundtrips</span>
+                            <span class="text-[10px] text-red-400 uppercase tracking-wider font-bold">Naive Multi-Agent (modeled)</span>
+                            <div class="text-2xl font-bold text-red-500 font-mono mt-1" id="graph-cost">–</div>
+                            <span class="text-[10px] text-slate-500" id="graph-api-calls">– API calls</span>
                         </div>
                         
-                        <!-- SI-MAOS Cost -->
+                        <!-- SI-MAOS Tokens -->
                         <div class="bg-emerald-950/10 border border-emerald-950/40 p-4 rounded-xl relative overflow-hidden">
-                            <span class="text-[10px] text-emerald-400 uppercase tracking-wider font-bold">SI-MAOS v5.0</span>
-                            <div class="text-2xl font-bold text-emerald-400 font-mono mt-1" id="simaos-cost">$0.07</div>
-                            <span class="text-[10px] text-slate-400">1 Single-Pass Context</span>
+                            <span class="text-[10px] text-emerald-400 uppercase tracking-wider font-bold">SI-MAOS v5.1 (modeled)</span>
+                            <div class="text-2xl font-bold text-emerald-400 font-mono mt-1" id="simaos-cost">–</div>
+                            <span class="text-[10px] text-slate-400">1 single-pass context</span>
                         </div>
                     </div>
 
                     <div class="mt-4 p-3 bg-emerald-950/10 border border-emerald-900/20 rounded-lg flex items-center justify-between text-xs">
-                        <span class="text-slate-300">Total Operational Budget Saved:</span>
-                        <span class="text-emerald-400 font-bold font-mono" id="savings-percent">91.8% Saved</span>
+                        <span class="text-slate-300">Modeled token reduction:</span>
+                        <span class="text-emerald-400 font-bold font-mono" id="savings-percent">–</span>
+                    </div>
+
+                    <div class="mt-4 text-[10px] text-slate-500 leading-relaxed border-t border-slate-800 pt-3">
+                        <strong class="text-slate-400">Disclosed formula &amp; constants (real, measured, not invented):</strong>
+                        role system-prompt overhead ≈ 75 tokens/call (avg. of 9 real role prompts logged); avg. output ≈ 270 tokens/role (avg. of 9 real logged outputs); SI-MAOS full system prompt = 3,011 tokens (actual v5.1 prompt, measured). Naive multi-agent resends the task plus every prior role's full output on each call (the documented default agent-memory pattern). Token→cost conversion, if shown, would use Anthropic's published Claude API rate of $3/M input tokens (Sonnet, api pricing page, as of July 2026) — cost is not displayed here by default since token count is the more defensible unit for a model with disclosed but approximate constants.
                     </div>
                 </div>
 
@@ -545,7 +569,7 @@
     <!-- Footer -->
     <footer class="border-t border-violet-950 bg-slate-950/80 py-8 text-center text-xs text-slate-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p>© 2026 SI-MAOS v5.0. Designed for next-generation system architectures and enterprise AI orchestration.</p>
+            <p>© 2026 SI-MAOS v5.1. A single-context multi-role prompt architecture, internally operated by Rudolph CX LLC. Comparative claims are logged and cited — see the Logged Benchmark section.</p>
         </div>
     </footer>
 
@@ -693,7 +717,7 @@
                     block.className = "p-3 bg-emerald-950/20 border border-emerald-900/30 rounded-lg text-emerald-300 font-bold mt-4 font-mono";
                     block.innerHTML = `
                         <div>[✓] CONTEXT STATE RETROSPECTIVE COMPLETE</div>
-                        <p class="text-[10px] font-normal text-slate-400 mt-1">10 system roles compiled. State preserved. Zero token decay. 0ms network graph latency overhead.</p>
+                        <p class="text-[10px] font-normal text-slate-400 mt-1">10 system roles compiled in one pass. No separate agent-to-agent network calls in this architecture.</p>
                     `;
                     consoleEl.appendChild(block);
                     consoleEl.scrollTop = consoleEl.scrollHeight;
@@ -719,41 +743,48 @@
         const simaosCostEl = document.getElementById("simaos-cost");
         const savingsPercentEl = document.getElementById("savings-percent");
 
+        // Disclosed constants — these are the actual measured averages from the
+        // logged benchmark (see companion PM Portfolio & Case Study, Appendix B),
+        // not arbitrary tuning values. ROLE_PROMPT_TOKENS and AVG_OUTPUT_TOKENS
+        // are the mean of the 9 real per-role figures logged there.
+        const ROLE_PROMPT_TOKENS = 75;      // avg. real role-specific system prompt
+        const AVG_OUTPUT_TOKENS = 270;      // avg. real per-role output in the logged test
+        const SIMAOS_SYSTEM_PROMPT_TOKENS = 3011; // actual v5.1 system prompt, measured
+
         function recalculate() {
             const iterations = parseInt(sliderIterations.value);
-            const contextK = parseInt(sliderContext.value); // Context size in K tokens
+            const contextK = parseFloat(sliderContext.value); // task/context size in K tokens
+            const contextTokens = contextK * 1000;
 
-            iterationsVal.innerText = `${iterations} Loops`;
+            iterationsVal.innerText = `${iterations} calls`;
             contextVal.innerText = `${contextK}k Tokens`;
 
-            // Pricing Model Assumptions (e.g., $15 per million input tokens for enterprise LLMs)
-            const inputCostPerK = 0.015; // $0.015 per 1,000 tokens
-
-            // Graph Network: 
-            // - Each loop executes a separate API call.
-            // - Accumulated context size grows quadratically or linearly depending on framework complexity.
-            // - Formula: Sum of context sent on each step.
-            //   For step `i`, context is original context + past responses (~1.5k per turn).
+            // Naive multi-agent (documented default pattern): each call sends its
+            // own short role prompt + the task + everything generated so far.
             let totalGraphTokens = 0;
+            let accumulatedOutput = 0;
             for (let i = 0; i < iterations; i++) {
-                totalGraphTokens += contextK + (i * 1.5);
+                const callInput = ROLE_PROMPT_TOKENS + contextTokens + accumulatedOutput;
+                totalGraphTokens += callInput + AVG_OUTPUT_TOKENS;
+                accumulatedOutput += AVG_OUTPUT_TOKENS;
             }
-            const graphCostVal = totalGraphTokens * inputCostPerK;
 
-            // SI-MAOS v5.0:
-            // - Executes everything inside 1 cohesive pass.
-            // - Formula: Single-pass context + role structure instructions + final outputs.
-            const totalSimaosTokens = contextK + (iterations * 1.0) + 1.5; 
-            const simaosCostVal = totalSimaosTokens * inputCostPerK;
+            // SI-MAOS: fixed system prompt + task, sent once; one continuous output
+            // covering all firing roles.
+            const simaosInput = SIMAOS_SYSTEM_PROMPT_TOKENS + contextTokens;
+            const simaosOutput = iterations * AVG_OUTPUT_TOKENS;
+            const totalSimaosTokens = simaosInput + simaosOutput;
 
-            // Update UI elements
-            graphCostEl.innerText = `$${graphCostVal.toFixed(3)}`;
-            graphApiCallsEl.innerText = `${iterations} API Roundtrips`;
+            // Update UI — token counts, not invented dollar figures. Cost isn't
+            // shown by default; if you want it, multiply by Anthropic's published
+            // per-token rate for the model you're actually using.
+            graphCostEl.innerText = `${Math.round(totalGraphTokens).toLocaleString()} tok`;
+            graphApiCallsEl.innerText = `${iterations} API calls`;
 
-            simaosCostEl.innerText = `$${simaosCostVal.toFixed(3)}`;
+            simaosCostEl.innerText = `${Math.round(totalSimaosTokens).toLocaleString()} tok`;
 
-            const savings = ((graphCostVal - simaosCostVal) / graphCostVal) * 100;
-            savingsPercentEl.innerText = `${savings.toFixed(1)}% Cost Reduction`;
+            const savings = ((totalGraphTokens - totalSimaosTokens) / totalGraphTokens) * 100;
+            savingsPercentEl.innerText = `${savings.toFixed(1)}% modeled reduction`;
         }
 
         // Calculator Event Listeners
