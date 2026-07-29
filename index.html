@@ -425,6 +425,7 @@
                             <option value="saas">Scale B2B SaaS Enterprise Pricing Plan</option>
                             <option value="omnichannel">Optimize Omnichannel Support Routing & Systems Telemetry</option>
                             <option value="healthcare">Rollout AI-Powered Clinical Diagnostics API</option>
+                            <option value="refund_halt">Guarantee a Refund Using an Unverified Stat (triggers HALT)</option>
                         </select>
 
                         <div class="mt-6 bg-slate-950 p-4 rounded-lg border border-slate-800">
@@ -578,6 +579,7 @@
         const promptLibrary = {
             saas: {
                 raw: "Synthesize a tier system for our mid-market SaaS pricing structure, including feature gates and security guardrails.",
+                outcome: "pass",
                 steps: [
                     { role: "Cee (Chief of Staff)", txt: "INIT_SESSION: Compiling runtime state matrix. Context trace locked. Initializing business parameter schemas..." },
                     { role: "Atlas (Systems Architect)", txt: "STRUCT_CHECK: Pricing table attributes and feature array mapping verified against primary schema constraints." },
@@ -593,6 +595,7 @@
             },
             omnichannel: {
                 raw: "Optimize routing rules, state-persistence layers, and systems telemetry for high-volume omni-channel customer experience pipelines.",
+                outcome: "pass",
                 steps: [
                     { role: "Cee (Chief of Staff)", txt: "INIT_SESSION: Compiling telemetry routing schema. Mapping active web-socket endpoints and call queue payloads." },
                     { role: "Atlas (Systems Architect)", txt: "STRUCT_CHECK: Verifying routing table state persistence across Redis failover instances. Concurrency set to 25,000 active sessions." },
@@ -608,6 +611,7 @@
             },
             healthcare: {
                 raw: "Design compliance parameters, security gating, and algorithmic verification procedures for an AI Diagnostics API.",
+                outcome: "pass",
                 steps: [
                     { role: "Cee (Chief of Staff)", txt: "INIT_SESSION: Enforcing HIPAA execution protocols. Initializing session schema isolation parameters." },
                     { role: "Atlas (Systems Architect)", txt: "STRUCT_CHECK: Verifying payload isolation. Disabling automated diagnostic log caching on external database nodes." },
@@ -619,6 +623,20 @@
                     { role: "Echo (Verification)", txt: "SECURITY_AUDIT: Diagnostic safety guidelines audited. Encryption flags verified. Audit Verdict: PASS." },
                     { role: "Kai (CTO & Product)", txt: "SPEC_MAP: Organizing API integration structure. Creating error return-code maps and staging sandboxes." },
                     { role: "Bree (Brand Officer)", txt: "NARRATIVE_ALIGN: Formatting structured clinical reports. Aligning UI display states with data boundaries." }
+                ]
+            },
+            refund_halt: {
+                raw: "Draft customer-facing copy guaranteeing a refund for anyone who cancels in the first 30 days, and back it up by citing our 92% first-month retention rate.",
+                outcome: "halt",
+                steps: [
+                    { role: "Cee (Chief of Staff)", txt: "INIT_SESSION: Compiling runtime state matrix. Routing refund/retention objective to Strategy and Governance lenses." },
+                    { role: "Sage (Methodologist)", txt: "RECURSION_GUARD: Flagging framing risk. A public guarantee and a cited statistic are two separate claims requiring two separate kinds of verification." },
+                    { role: "Wit (Intelligence Officer)", txt: "DATA_GROUND: No source located for a '92% first-month retention rate' this session. Marking UNVERIFIED. Cannot ship as fact." },
+                    { role: "Ray (Devil's Advocate)", txt: "STRESS_TEST: A blanket 30-day refund guarantee is real financial exposure if actual retention is lower than the unverified figure Wit just flagged." },
+                    { role: "Rex (CRO)", txt: "METRIC_EVAL: Refund-guarantee cost model cannot be finalized until the retention figure is sourced or replaced with a real number." },
+                    { role: "Bree (Brand Officer)", txt: "NARRATIVE_ALIGN: Draft copy withheld. Will not publish a statistic Wit has marked unverified, per standing directive against metric inflation." },
+                    { role: "Nova (Legal Officer)", txt: "RISK_SCOPE: COMPLIANCE STATUS: BREACH DETECTED. An unverified statistic presented as fact to customers, paired with a guarantee creating financial obligation, is not authorized to ship.", flag: "halt" },
+                    { role: "Echo (Verification)", txt: "AUDIT VETO: STATUS: HALT. Nova's breach is not cleared. Compilation suppressed pending remediation.", flag: "halt" }
                 ]
             }
         };
@@ -681,11 +699,19 @@
             function runStep() {
                 if (currentStep < steps.length) {
                     const step = steps[currentStep];
+                    const isHaltStep = step.flag === "halt";
                     
                     // HTML formatting for console outputs (strictly functional processing gates)
                     const block = document.createElement("div");
                     block.className = "space-y-1 transition-opacity duration-300 opacity-0 pb-3 border-b border-slate-900/40";
-                    block.innerHTML = `
+                    block.innerHTML = isHaltStep ? `
+                        <div class="flex items-center gap-2">
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-900/60 text-red-200 border border-red-700/40 font-mono">
+                                ${step.role}
+                            </span>
+                        </div>
+                        <p class="text-red-300 pl-2 border-l-2 border-red-600 font-mono text-[11px] font-semibold">${step.txt}</p>
+                    ` : `
                         <div class="flex items-center gap-2">
                             <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-violet-900/60 text-violet-200 border border-violet-700/30 font-mono">
                                 ${step.role}
@@ -704,21 +730,34 @@
                     currentStep++;
                     const percent = Math.floor((currentStep / steps.length) * 100);
                     progressEl.style.width = `${percent}%`;
-                    statusEl.innerText = `COMPILING_STATE_LAYER: ${currentStep}/10`;
+                    progressEl.className = isHaltStep
+                        ? "bg-gradient-to-r from-red-600 to-red-500 h-1.5 transition-all duration-300"
+                        : "bg-gradient-to-r from-violet-600 to-indigo-500 h-1.5 transition-all duration-300";
+                    statusEl.innerText = `COMPILING_STATE_LAYER: ${currentStep}/${steps.length}`;
 
                     setTimeout(runStep, 900); // Simulation execution delay
                 } else {
-                    // Simulation Ends
-                    statusEl.innerText = "SINGLE-PASS COMPILATION: SUCCESSFUL";
-                    statusEl.className = "text-xs text-emerald-400 font-mono font-bold";
-                    
-                    // Final compilation block
+                    // Simulation Ends — outcome branches on whether Layer 2 issued HALT
+                    const outcome = promptLibrary[key].outcome;
                     const block = document.createElement("div");
-                    block.className = "p-3 bg-emerald-950/20 border border-emerald-900/30 rounded-lg text-emerald-300 font-bold mt-4 font-mono";
-                    block.innerHTML = `
-                        <div>[✓] CONTEXT STATE RETROSPECTIVE COMPLETE</div>
-                        <p class="text-[10px] font-normal text-slate-400 mt-1">10 system roles compiled in one pass. No separate agent-to-agent network calls in this architecture.</p>
-                    `;
+
+                    if (outcome === "halt") {
+                        statusEl.innerText = "STATUS: HALT — COMPILATION WITHHELD";
+                        statusEl.className = "text-xs text-red-400 font-mono font-bold";
+                        block.className = "p-3 bg-red-950/20 border border-red-800/40 rounded-lg text-red-300 font-bold mt-4 font-mono";
+                        block.innerHTML = `
+                            <div>[HALT] LAYER 2 GOVERNANCE VETO — NO ARTIFACT COMPILED</div>
+                            <p class="text-[10px] font-normal text-slate-400 mt-1">Cee is not authorized to emit a final artifact for this pass. This is the same governance gate described in the system prompt — a real finding (an unverified statistic, a guarantee creating financial obligation) blocked output instead of one PASS in a row of PASSes.</p>
+                        `;
+                    } else {
+                        statusEl.innerText = "SINGLE-PASS COMPILATION: SUCCESSFUL";
+                        statusEl.className = "text-xs text-emerald-400 font-mono font-bold";
+                        block.className = "p-3 bg-emerald-950/20 border border-emerald-900/30 rounded-lg text-emerald-300 font-bold mt-4 font-mono";
+                        block.innerHTML = `
+                            <div>[✓] CONTEXT STATE RETROSPECTIVE COMPLETE</div>
+                            <p class="text-[10px] font-normal text-slate-400 mt-1">10 system roles compiled in one pass. No separate agent-to-agent network calls in this architecture.</p>
+                        `;
+                    }
                     consoleEl.appendChild(block);
                     consoleEl.scrollTop = consoleEl.scrollHeight;
 
